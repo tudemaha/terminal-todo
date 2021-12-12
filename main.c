@@ -21,6 +21,7 @@ int main() {
 
 int main_menu() {
         char pilihan_menu[2], pilihan_keluar[2];
+        char *username_login;
 
         printf(
         "\nMENU UTAMA\n"
@@ -33,26 +34,28 @@ int main_menu() {
 
     switch (pilihan_menu[0]) {
         case '1':
+        username_login = login();
         break;
 
         case '2':
-        break;
-
-        case '3':
         printf("\nYakin untuk keluar (y/n)? : ");
         scanf("%s", &pilihan_keluar);
         switch (pilihan_keluar[0]) {
-            case 'y':
-            return 0;
-            break;
+        case 'y':
+        return 0;
+        break;
 
-            case 'n':
-            main_menu();
-            break;
+        case 'n':
+        main_menu();
+        break;
 
-            default:
-            salah_input();
-        }
+        default:
+        salah_input();
+    }
+        break;
+
+        case '3':
+        
         break;
 
         default:
