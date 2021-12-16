@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <conio.h>
 #include "functions.h"
@@ -14,7 +15,6 @@ int main() {
     );
 
     main_menu();
-    
 
     return 0;
 }
@@ -22,6 +22,7 @@ int main() {
 int main_menu() {
         char pilihan_menu[2], pilihan_keluar[2];
         char *username_login;
+        int status;
 
         printf(
         "\nMENU UTAMA\n"
@@ -38,29 +39,27 @@ int main_menu() {
         break;
 
         case '2':
-        printf("\nYakin untuk keluar (y/n)? : ");
-        scanf("%s", &pilihan_keluar);
-        switch (pilihan_keluar[0]) {
-        case 'y':
-        return 0;
-        break;
-
-        case 'n':
-        main_menu();
-        break;
-
-        default:
-        salah_input();
-    }
+        status = signup();
+        if(status == 10) main();
         break;
 
         case '3':
-        
-        break;
+        printf("\nYakin untuk keluar (y/n)? : ");
+        scanf("%s", &pilihan_keluar);
+        switch (pilihan_keluar[0]) {
+            case 'y':
+            return 0;
+            break;
 
+            case 'n':
+            system("cls");
+            main();
+            break;
+
+            default:
+            salah_input();
+        }
         default:
         salah_input();
-
     }
-
 }

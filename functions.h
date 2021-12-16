@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <conio.h>
 
 char user_data[100][3][10];
+int status = 1;
 
 int try_login();
 
@@ -48,6 +50,7 @@ void split_user(char db_user[]) {
     fclose(fp);
 }
 
+// fungsi login
 char *login() {
     char username[10], pass[10];
     int check = 0;
@@ -79,6 +82,7 @@ char *login() {
 
 }
 
+// menangani kesalahan login
 int try_login() {
     char check[2];
     printf(
@@ -101,4 +105,52 @@ int try_login() {
         default:
         salah_input();
     }
+}
+
+// fungsi daftar user baru
+int signup() {
+    char username[10], pass[10];
+    int check = 0;
+    split_user("db\\db_user.csv");
+
+    printf("\nKetik username (maksimal 10 karakter tanpa spasi): ");
+    scanf("%s", username);
+
+    while(getchar() != '\n');
+
+    printf("Masukkan password (maksimal 10 karakter): ");
+    gets(pass);
+    
+
+    for(int i = 0; i < 100; i++) {
+        if(strcmp(username, user_data[i][0]) == 0)
+        check++;
+    }
+
+    if(status == 3) {
+        printf("Anda membuat tiga kali kesalahan saat mendaftar, Anda dikembalikan ke state awal!");
+        printf("\nTekan sembarang tombol...\n");
+        getch();
+        system("cls");
+        status = 0;
+        return 10;
+    }
+
+    if(check > 0) {
+        printf("\nUsername sudah digunakan. Gunakan username lain!\n");
+        status++;
+        signup();
+    } else if(strlen(username) > 10) {
+        printf("\nUsername lebih dari 10 karakter. Gunakan username lain!\n");
+        status++;
+        signup();
+    } else if(strlen(pass) > 10) {
+        printf("\nPassword lebih dari 10 karakter. Gunakan password lain!\n");
+        status++;
+        signup();
+    } else {
+        status = 0;
+    }
+
+    
 }
