@@ -153,12 +153,13 @@ int signup() {
         status = 0;
     }
 
-    FILE *fp = fopen("db\\db_user.csv", "r+");
+    FILE *fp = fopen("db\\db_user.csv", "a+");
 
     if(!fp) {
         printf("Database user tidak tersedia!");
     } else {
         fprintf(fp, "%s,%s,\n", username, pass);
+        fclose(fp);
         printf(
             "Username berhasil didaftarkan.\n"
             "Tekan sembarang tombol untuk kembali ke main menu..."
