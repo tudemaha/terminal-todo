@@ -1,2 +1,5 @@
 # don't include *.exe files
 *.exe
+
+# don't include folder(s)
+/testing
