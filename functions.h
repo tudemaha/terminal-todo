@@ -4,7 +4,7 @@
 #include <conio.h>
 
 char user_data[100][3][10];
-int status = 1;
+
 
 int try_login();
 
@@ -111,6 +111,7 @@ int try_login() {
 int signup() {
     char username[10], pass[10];
     int check = 0;
+    int status = 1;
     split_user("db\\db_user.csv");
 
     printf("\nKetik username (maksimal 10 karakter tanpa spasi): ");
@@ -128,7 +129,7 @@ int signup() {
     }
 
     if(status == 3) {
-        printf("Anda membuat tiga kali kesalahan saat mendaftar, Anda dikembalikan ke state awal!");
+        printf("Anda membuat tiga kali kesalahan saat mendaftar, Anda dikembalikan ke main menu!");
         printf("\nTekan sembarang tombol...\n");
         getch();
         system("cls");
@@ -151,6 +152,23 @@ int signup() {
     } else {
         status = 0;
     }
+
+    FILE *fp = fopen("db\\db_user.csv", "r+");
+
+    if(!fp) {
+        printf("Database user tidak tersedia!");
+    } else {
+        fprintf(fp, "%s,%s,\n", username, pass);
+        printf(
+            "Username berhasil didaftarkan.\n"
+            "Tekan sembarang tombol untuk kembali ke main menu..."
+        );
+        getch();
+        system("cls");
+        return 10;
+    }
+
+    fclose(fp);
 
     
 }
