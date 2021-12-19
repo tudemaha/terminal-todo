@@ -24,13 +24,13 @@ void split_user(char db_user[]) {
 
     int row = 0, column = 0;
 
-    FILE *fp = fopen(db_user, "r");
+    FILE *user_db = fopen(db_user, "r");
 
-    if(!fp) {
+    if(!user_db) {
         printf("Database user tidak tersedia!");
     } else {
 
-        while(fgets(buffer, 1024, fp)) {
+        while(fgets(buffer, 1024, user_db)) {
             column = 0;
 
             char *value = strtok(buffer, ",");
@@ -47,7 +47,7 @@ void split_user(char db_user[]) {
         }
     }
 
-    fclose(fp);
+    fclose(user_db);
 }
 
 // fungsi login
@@ -65,14 +65,15 @@ char *login() {
     split_user("db\\db_user.csv");
 
     for(int i = 0; i < 100; i++) {
-        if(strcmp(username, user_data[i][0]) == 0)
-        check++;
-        username_return = user_data[i][0];
+        if((strcmp(username, user_data[i][0]) == 0) && (strcmp(pass, user_data[i][1]) == 0)) {
+            check++;
+            strcpy(username_return, user_data[i][0]);
+        }
     }
 
     if(check == 1) {
-        printf("Anda berhasil masuk!\n\n");
-        printf("Anda masuk sebagai %s.", username);
+        system("cls");
+        printf("Anda berhasil masuk.\n\n");
         return username_return;
 
     } else {
@@ -95,15 +96,16 @@ int try_login() {
 
     switch (check[0]) {
         case '1':
-        login();
-        break;
+            login();
+            break;
 
         case '2':
-        return 0;
-        break;
+            return 0;
+            break;
 
         default:
-        salah_input();
+            salah_input();
+            break;
     }
 }
 
@@ -153,13 +155,13 @@ int signup() {
         status = 0;
     }
 
-    FILE *fp = fopen("db\\db_user.csv", "a+");
+    FILE *user_db = fopen("db\\db_user.csv", "a+");
 
-    if(!fp) {
+    if(!user_db) {
         printf("Database user tidak tersedia!");
     } else {
-        fprintf(fp, "%s,%s,\n", username, pass);
-        fclose(fp);
+        fprintf(user_db, "%s,%s,\n", username, pass);
+        fclose(user_db);
         printf(
             "Username berhasil didaftarkan.\n"
             "Tekan sembarang tombol untuk kembali ke main menu..."
@@ -168,8 +170,136 @@ int signup() {
         system("cls");
         return 10;
     }
-
-    fclose(fp);
-
     
+}
+
+int new_todo(char username_login[]) {
+    FILE *todo_db = fopen("db\\db_todo.csv", "a+");
+
+    char todo[3][500];
+
+    while(getchar() != '\n');
+
+    printf("\nIngatkan untuk (maks. 500 karakter): ");
+    fgets(todo[0], 500, stdin);
+    todo[0][strcspn(todo[0], "\n")] = 0;
+
+    if(strlen(todo[0]) == 0) {
+        printf("Anda belum memasukkan kegiatan.\n");
+        new_todo(username_login);
+    }
+    
+
+    printf("Deadline (format: ddmmyyyy) [opsional]: ");
+    fgets(todo[1], 8, stdin);
+    todo[1][strcspn(todo[1], "\n")] = 0;
+    
+
+    if(!todo_db) {
+        printf("\nDatabase todo tidak tersedia!\n");
+    } else {
+        fprintf(todo_db, "%s,%s,%s,\n", username_login, todo[0], todo[1]);
+        fclose(todo_db);
+        printf("\nBerhasil memasukkan kegiatan.\n");
+    }
+
+    char pilihan[2] = "";
+    printf("Ingin memasukkan kegiatan lain? (y/n): ");
+    scanf("%s", &pilihan);
+    switch(pilihan[0]) {
+        case 'y':
+            system("cls");
+            new_todo(username_login);
+            break;
+
+        case 'n':
+            return 10;
+            break;
+
+        default:
+            salah_input();
+            break;
+    }
+
+}
+
+void show_todo(char username[]) {
+    char buffer[4000];
+    char todo_list[500][5][500];
+    int row = 0, column = 0;
+
+    FILE *todo_db = fopen("db\\db_todo.csv", "r");
+
+    if(!todo_db) {
+        printf("Database todo tidak tersedia!\n");
+    } else {
+
+        while(fgets(buffer, 4000, todo_db)) {
+            column = 0;
+
+            char *value = strtok(buffer, ",");
+
+            while(value) {
+                if(column == 0) strcpy(todo_list[row][column], value);
+                if(column == 1) strcpy(todo_list[row][column], value);
+                if(column == 2) strcpy(todo_list[row][column], value);
+                if(column == 3) strcpy(todo_list[row][column], value);
+
+                value = strtok(NULL, ",");
+                column++;
+            }
+            row++;
+        }
+    }
+    fclose(todo_db);
+
+    system("cls");
+    printf("\nDaftar kegiatanmu:\n");
+    for(int i = 0; i < 500; i++) {
+        if(todo_list[i]) {
+            if(strcmp(todo_list[i][0], username) == 0) {
+                printf("%d. ", i + 1);
+                printf("%s - ", todo_list[i][1]);
+                printf("%s - ", todo_list[i][2]);
+                printf("%s", todo_list[i][3]);
+            }
+        }
+    }
+}
+
+int todo_option(char username[]) {
+    char pilihan[2] = "";
+    int status = 0;
+
+    printf("Anda masuk sebagai %s.\n\n", username);
+    printf(
+        "Pilihan Menu:\n"
+        "1. Buat To-Do List\n"
+        "2. Lihat To-Do List\n"
+        "3. Tandai To-Do List telah Dilakukan\n"
+        "4. Keluar\n"
+        "Masukkan pilihan: "
+    );
+    scanf("%s", &pilihan);
+
+    switch (pilihan[0]) {
+        case '1':
+            status = new_todo(username);
+            if(status == 10) {
+                system("cls");
+                todo_option(username);
+            }
+            break;
+        
+        case '2':
+            show_todo(username);
+            break;
+        case '4':
+            system("cls");
+            return 10;
+            break;
+
+        default:
+            break;
+    }
 }

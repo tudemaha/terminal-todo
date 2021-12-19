@@ -3,3 +3,6 @@
 
 # don't include folder(s)
 /testing
+
+# don't include .vscode folder
+/.vscode

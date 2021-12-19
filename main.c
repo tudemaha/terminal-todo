@@ -35,31 +35,39 @@ int main_menu() {
 
     switch (pilihan_menu[0]) {
         case '1':
-        username_login = login();
-        break;
+            status = 0;
+            username_login = login();
+            if(username_login) {
+                status = todo_option(username_login);
+                if(status == 10)main();
+            }
+            break;
 
         case '2':
-        status = signup();
-        if(status == 10) main();
-        break;
+            status = 0;
+            status = signup();
+            if(status == 10) main();
+            break;
 
         case '3':
-        printf("\nYakin untuk keluar (y/n)? : ");
-        scanf("%s", &pilihan_keluar);
-        switch (pilihan_keluar[0]) {
+            printf("\nYakin untuk keluar (y/n)? : ");
+            scanf("%s", &pilihan_keluar);
+            switch (pilihan_keluar[0]) {
             case 'y':
-            return 0;
-            break;
+                return 0;
+                break;
 
             case 'n':
-            system("cls");
-            main();
-            break;
+                system("cls");
+                main();
+                break;
 
             default:
-            salah_input();
-        }
+                salah_input();
+            }
+            break;
         default:
-        salah_input();
+            salah_input();
+            break;
     }
 }
