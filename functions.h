@@ -223,12 +223,12 @@ int new_todo(char username_login[]) {
 
 }
 
-void show_todo(char username[]) {
+void split_todo(char username[], char mode[]) {
     char buffer[4000];
     char todo_list[500][6][500];
     int row = 0, column = 0;
 
-    FILE *todo_db = fopen("db\\db_todo.csv", "r");
+    FILE *todo_db = fopen("db\\db_todo.csv", mode);
 
     if(!todo_db) {
         printf("Database todo tidak tersedia!\n");
@@ -272,6 +272,10 @@ void show_todo(char username[]) {
             printf("%s\n", todo_list[i][3]);
         }
     }
+}
+
+void show_todo(char username[]) {
+    split_todo(username, "r");
 }
 
 int todo_option(char username[]) {
