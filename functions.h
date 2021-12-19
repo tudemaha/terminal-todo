@@ -204,12 +204,14 @@ int new_todo(char username_login[]) {
         printf("\nBerhasil memasukkan kegiatan.\n");
     }
 
+    while(getchar() != '\n');
+
     char pilihan[2];
     printf("Ingin memasukkan kegiatan lain? (y/n): ");
     scanf("%s", &pilihan);
     switch(pilihan[0]) {
         case 'y':
-            system("cls");
+            //system("cls");
             new_todo(username_login);
             break;
 
