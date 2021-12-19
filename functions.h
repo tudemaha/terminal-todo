@@ -198,12 +198,12 @@ int new_todo(char username_login[]) {
     if(!todo_db) {
         printf("\nDatabase todo tidak tersedia!\n");
     } else {
-        fprintf(todo_db, "%s,%s,%s,\n", username_login, todo[0], todo[1]);
+        fprintf(todo_db, "%s,%s,%s,,\n", username_login, todo[0], todo[1]);
         fclose(todo_db);
         printf("\nBerhasil memasukkan kegiatan.\n");
     }
 
-    char pilihan[2] = "";
+    char pilihan[2];
     printf("Ingin memasukkan kegiatan lain? (y/n): ");
     scanf("%s", &pilihan);
     switch(pilihan[0]) {
@@ -225,7 +225,7 @@ int new_todo(char username_login[]) {
 
 void show_todo(char username[]) {
     char buffer[4000];
-    char todo_list[500][5][500];
+    char todo_list[500][6][500];
     int row = 0, column = 0;
 
     FILE *todo_db = fopen("db\\db_todo.csv", "r");
@@ -253,22 +253,29 @@ void show_todo(char username[]) {
     }
     fclose(todo_db);
 
+    for(int i = 0; i < 500; i++) {
+        for(int j = 0; j < 5; j++) {
+            todo_list[i][j][strcspn(todo_list[i][j], "\n")] = 0;
+        }
+        
+    }
+
+    int count = 1;
     system("cls");
     printf("\nDaftar kegiatanmu:\n");
     for(int i = 0; i < 500; i++) {
-        if(todo_list[i]) {
-            if(strcmp(todo_list[i][0], username) == 0) {
-                printf("%d. ", i + 1);
-                printf("%s - ", todo_list[i][1]);
-                printf("%s - ", todo_list[i][2]);
-                printf("%s", todo_list[i][3]);
-            }
+        if(strcmp(todo_list[i][0], username) == 0) {
+            printf("%d. ", count++);
+            printf("%d - ", i);
+            printf("%s - ", todo_list[i][1]);
+            printf("%s - ", todo_list[i][2]);
+            printf("%s\n", todo_list[i][3]);
         }
     }
 }
 
 int todo_option(char username[]) {
-    char pilihan[2] = "";
+    char pilihan[2];
     int status = 0;
 
     printf("Anda masuk sebagai %s.\n\n", username);
