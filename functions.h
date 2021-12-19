@@ -7,6 +7,7 @@ char user_data[100][3][10];
 
 
 int try_login();
+int todo_option(char username[]);
 
 // fungsi untuk menangani kesalahan input
 int salah_input() {
@@ -276,6 +277,11 @@ void split_todo(char username[], char mode[]) {
 
 void show_todo(char username[]) {
     split_todo(username, "r");
+
+    printf("\n\nTekan sembarang tombol untuk kembali ke menu sebelumnya...\n");
+    getch();
+    system("cls");
+    todo_option(username);
 }
 
 int todo_option(char username[]) {
