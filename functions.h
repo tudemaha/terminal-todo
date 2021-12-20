@@ -63,7 +63,7 @@ char *login() {
     printf("Password\t: ");
     scanf("%s", &pass);
 
-    split_user("db\\db_user.csv");
+    split_user("db_user.csv");
 
     for(int i = 0; i < 100; i++) {
         if((strcmp(username, user_data[i][0]) == 0) && (strcmp(pass, user_data[i][1]) == 0)) {
@@ -115,7 +115,7 @@ int signup() {
     char username[10], pass[10];
     int check = 0;
     int status = 1;
-    split_user("db\\db_user.csv");
+    split_user("db_user.csv");
 
     printf("\nKetik username (maksimal 10 karakter tanpa spasi): ");
     scanf("%s", username);
@@ -156,7 +156,7 @@ int signup() {
         status = 0;
     }
 
-    FILE *user_db = fopen("db\\db_user.csv", "a+");
+    FILE *user_db = fopen("db_user.csv", "a+");
 
     if(!user_db) {
         printf("Database user tidak tersedia!");
@@ -175,7 +175,7 @@ int signup() {
 }
 
 int new_todo(char username_login[]) {
-    FILE *todo_db = fopen("db\\db_todo.csv", "a+");
+    FILE *todo_db = fopen("db_todo.csv", "a+");
 
     char todo[3][500];
 
@@ -231,7 +231,7 @@ void split_todo(char username[], char mode[]) {
     char todo_list[500][6][500];
     int row = 0, column = 0;
 
-    FILE *todo_db = fopen("db\\db_todo.csv", mode);
+    FILE *todo_db = fopen("db_todo.csv", mode);
 
     if(!todo_db) {
         printf("Database todo tidak tersedia!\n");
