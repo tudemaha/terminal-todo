@@ -21,8 +21,7 @@ int main() {
 
 int main_menu() {
         char pilihan_menu[2], pilihan_keluar[2];
-        char *username_login;
-        int status;
+        int status = 0;
 
         printf(
         "\nMENU UTAMA\n"
