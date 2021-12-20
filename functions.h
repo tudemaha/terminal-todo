@@ -4,10 +4,11 @@
 #include <conio.h>
 
 char user_data[100][3][10];
+char username_login[10];
 
 
 int try_login();
-int todo_option(char username[]);
+int todo_option();
 
 // fungsi untuk menangani kesalahan input
 int salah_input() {
@@ -52,10 +53,9 @@ void split_user(char db_user[]) {
 }
 
 // fungsi login
-char *login() {
+int login() {
     char username[10], pass[10];
     int check = 0;
-    char *username_return;
 
     printf("Username\t: ");
     scanf("%s", &username);
@@ -68,14 +68,14 @@ char *login() {
     for(int i = 0; i < 100; i++) {
         if((strcmp(username, user_data[i][0]) == 0) && (strcmp(pass, user_data[i][1]) == 0)) {
             check++;
-            strcpy(username_return, user_data[i][0]);
+            strcpy(username_login, user_data[i][0]);
         }
     }
 
     if(check == 1) {
         system("cls");
         printf("Anda berhasil masuk.\n\n");
-        return username_return;
+        return 10;
 
     } else {
         printf("Percobaan masuk tidak berhasil!\n\n");
@@ -174,7 +174,7 @@ int signup() {
     
 }
 
-int new_todo(char username_login[]) {
+int new_todo() {
     FILE *todo_db = fopen("db_todo.csv", "a+");
 
     char todo[3][500];
@@ -212,7 +212,7 @@ int new_todo(char username_login[]) {
     switch(pilihan[0]) {
         case 'y':
             //system("cls");
-            new_todo(username_login);
+            new_todo();
             break;
 
         case 'n':
@@ -226,7 +226,7 @@ int new_todo(char username_login[]) {
 
 }
 
-void split_todo(char username[], char mode[]) {
+void split_todo(char mode[]) {
     char buffer[4000];
     char todo_list[500][6][500];
     int row = 0, column = 0;
@@ -267,7 +267,7 @@ void split_todo(char username[], char mode[]) {
     system("cls");
     printf("\nDaftar kegiatanmu:\n");
     for(int i = 0; i < 500; i++) {
-        if(strcmp(todo_list[i][0], username) == 0) {
+        if(strcmp(todo_list[i][0], username_login) == 0) {
             printf("%d. ", count++);
             printf("%d - ", i);
             printf("%s - ", todo_list[i][1]);
@@ -277,20 +277,20 @@ void split_todo(char username[], char mode[]) {
     }
 }
 
-void show_todo(char username[]) {
-    split_todo(username, "r");
+void show_todo() {
+    split_todo("r");
 
     printf("\n\nTekan sembarang tombol untuk kembali ke menu sebelumnya...\n");
     getch();
     system("cls");
-    todo_option(username);
+    todo_option();
 }
 
-int todo_option(char username[]) {
+int todo_option() {
     char pilihan[2];
     int status = 0;
 
-    printf("Anda masuk sebagai %s.\n\n", username);
+    printf("Anda masuk sebagai %s.\n\n", username_login);
     printf(
         "Pilihan Menu:\n"
         "1. Buat To-Do List\n"
@@ -303,15 +303,15 @@ int todo_option(char username[]) {
 
     switch (pilihan[0]) {
         case '1':
-            status = new_todo(username);
+            status = new_todo();
             if(status == 10) {
                 system("cls");
-                todo_option(username);
+                todo_option();
             }
             break;
         
         case '2':
-            show_todo(username);
+            show_todo();
             break;
         case '4':
             system("cls");

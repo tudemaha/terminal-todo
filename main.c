@@ -36,9 +36,11 @@ int main_menu() {
     switch (pilihan_menu[0]) {
         case '1':
             status = 0;
-            username_login = login();
-            if(username_login) {
-                status = todo_option(username_login);
+            status = login();
+            
+            if(status == 10) {
+                status = 0;
+                status = todo_option();
                 if(status == 10)main();
             }
             break;
