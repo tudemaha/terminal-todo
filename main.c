@@ -7,6 +7,8 @@
 int main_menu();
 
 int main() {
+    char pilihan_menu[2], pilihan_keluar[2];
+    int status = 0;
 
     printf(
         "\n===== SELAMAT DATANG DI  TERMINAL TO-DO ====="
@@ -14,21 +16,12 @@ int main() {
         "\n=============================================\n"
     );
 
-    main_menu();
-
-    return 0;
-}
-
-int main_menu() {
-        char pilihan_menu[2], pilihan_keluar[2];
-        int status = 0;
-
-        printf(
-        "\nMENU UTAMA\n"
-        "1. Masuk\n"
-        "2. Daftar\n"
-        "3. Keluar Program\n"
-        "Masukkan pilihan: "
+    printf(
+    "\nMENU UTAMA\n"
+    "1. Masuk\n"
+    "2. Daftar\n"
+    "3. Keluar Program\n"
+    "Masukkan pilihan: "
     );
     scanf("%s", &pilihan_menu);
 
@@ -71,4 +64,6 @@ int main_menu() {
             salah_input();
             break;
     }
+
+    return 0;
 }
