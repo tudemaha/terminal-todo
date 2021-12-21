@@ -115,16 +115,17 @@ int try_login() {
 }
 
 // fungsi daftar user baru
+int status = 1;
 int signup() {
     char username[10], pass[10];
     int check_same = 0;
-    int status;
-    split_user("db_user.csv");
+
+
+    split_user();
 
 
     printf("\nKetik username (maksimal 10 karakter tanpa spasi): ");
     scanf("%s", &username);
-    //username[strcspn(username, "\n")] = 0;
 
     while(getchar() != '\n');
 
@@ -139,49 +140,53 @@ int signup() {
         i++;
     }
 
-    if(status == 3) {
-        printf("Anda membuat tiga kali kesalahan saat mendaftar, Anda dikembalikan ke main menu.");
-        printf("\nTekan sembarang tombol...\n");
-        getch();
-        system("cls");
-        status = 0;
-        return 10;
-    }
-
-    if(check_same > 0) {
+    if(status < 3 && check_same > 0) {
         printf("\nUsername sudah digunakan. Gunakan username lain!\n");
         status++;
+        strcpy(username, "");
+        strcpy(pass, "");
         signup();
-    } else if(strlen(username) > 10) {
+    } else if(status < 3 && strlen(username) > 10) {
         printf("\nUsername lebih dari 10 karakter. Gunakan username lain!\n");
         status++;
+        strcpy(username, "");
+        strcpy(pass, "");
         signup();
-    } else if(strlen(pass) > 10) {
+    } else if(status < 3 && strlen(pass) > 10) {
         printf("\nPassword lebih dari 10 karakter. Gunakan password lain!\n");
         status++;
+        strcpy(username, "");
+        strcpy(pass, "");
         signup();
     } else {
-        status = 0;
-    }
 
-    FILE *user_db = fopen("db_user.csv", "a+");
+        if(status == 3) {
+            printf("Anda membuat tiga kali kesalahan saat mendaftar, Anda dikembalikan ke main menu.");
+            printf("\nTekan sembarang tombol...\n");
+            getch();
+            system("cls");
+            status = 0;
+            return 10;
+        } else {
+            FILE *user_db = fopen("db_user.csv", "a+");
 
-    if(!user_db) {
-        printf("Database user tidak tersedia, program dihentikan.\n");
-        printf("Tekan sembarang untuk keluar dari program...");
-        getch();
-    } else {
-        fprintf(user_db, "%s;%s;\n", username, pass);
-        fclose(user_db);
-        printf(
-            "Username berhasil didaftarkan.\n"
-            "Tekan sembarang tombol untuk kembali ke main menu..."
-        );
-        getch();
-        system("cls");
-        return 10;
+            if(!user_db) {
+                printf("Database user tidak tersedia, program dihentikan.\n");
+                printf("Tekan sembarang untuk keluar dari program...");
+                getch();
+            } else {
+                fprintf(user_db, "%s;%s;\n", username, pass);
+                fclose(user_db);
+                printf(
+                    "Username berhasil didaftarkan.\n"
+                    "Tekan sembarang tombol untuk kembali ke main menu..."
+                );
+                getch();
+                system("cls");
+                return 10;
+            }
+        }
     }
-    
 }
 
 int new_todo() {
@@ -337,6 +342,7 @@ int todo_option() {
             break;
 
         default:
+            salah_input();
             break;
     }
 }
