@@ -3,11 +3,12 @@
 #include <string.h>
 #include <conio.h>
 
+// global variabel
 char user_data[100][3][10];
 char todo_list[500][6][500];
 char username_login[10];
 
-
+// prototyping function
 int try_login();
 int todo_option();
 int finish_todo();
@@ -22,7 +23,7 @@ int salah_input() {
     return 0;
 }
 
-// split isi scv
+// split isi user csv
 void split_user() {
     char buffer[1024];
 
@@ -56,7 +57,7 @@ void split_user() {
     fclose(user_db);
 }
 
-// fungsi login
+// fungsi untuk user login
 int login() {
     char username[10], pass[10];
     int check = 0;
@@ -189,6 +190,8 @@ int signup() {
     }
 }
 
+
+// membuat todo baru
 int new_todo() {
     FILE *todo_db = fopen("db_todo.csv", "a+");
 
@@ -243,6 +246,7 @@ int new_todo() {
 
 }
 
+// split csv todo sesuai dengan mode yang diinginkan
 void split_todo(char mode[]) {
     char buffer[4000];
     int row = 0, column = 0;
@@ -295,6 +299,7 @@ void split_todo(char mode[]) {
     }
 }
 
+// menampilkan todo dari user login
 void show_todo() {
     split_todo("r");
 
@@ -304,6 +309,8 @@ void show_todo() {
     todo_option();
 }
 
+
+// menampilkan pilihan aksi user saat berhasil login
 int todo_option() {
     char pilihan[2];
     int status = 0;
@@ -347,6 +354,7 @@ int todo_option() {
     }
 }
 
+// menyelesaikan todo berdasarkan id
 int finish_todo() {
     int selesai, count = 0;
     char pilihan[2];

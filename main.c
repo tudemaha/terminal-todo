@@ -4,18 +4,19 @@
 #include <conio.h>
 #include "functions.h"
 
-int main_menu();
-
+// main menu (fungsi utama)
 int main() {
     char pilihan_menu[2], pilihan_keluar[2];
     int status = 0;
 
+    // cetak judul
     printf(
         "\n===== SELAMAT DATANG DI  TERMINAL TO-DO ====="
         "\n==== PROGRAM PENGINGAT BERBASIS TERMINAL ===="
         "\n=============================================\n"
     );
 
+    // pilihan menu utama
     printf(
     "\nMENU UTAMA\n"
     "1. Masuk\n"
@@ -25,6 +26,7 @@ int main() {
     );
     scanf("%s", &pilihan_menu);
 
+    // pengondisian pilihan user
     switch (pilihan_menu[0]) {
         case '1':
             status = 0;
