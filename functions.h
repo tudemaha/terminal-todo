@@ -35,6 +35,7 @@ void split_user() {
         printf("Database user tidak tersedia, program dihentikan.\n");
         printf("Tekan sembarang untuk keluar dari program...");
         getch();
+        exit(1);
     } else {
 
         while(fgets(buffer, 1024, user_db)) {
@@ -175,6 +176,7 @@ int signup() {
                 printf("Database user tidak tersedia, program dihentikan.\n");
                 printf("Tekan sembarang untuk keluar dari program...");
                 getch();
+                exit(1);
             } else {
                 fprintf(user_db, "%s;%s;\n", username, pass);
                 fclose(user_db);
@@ -218,6 +220,7 @@ int new_todo() {
         printf("Database todo tidak tersedia, program dihentikan.\n");
         printf("Tekan sembarang untuk keluar dari program...");
         getch();
+        exit(1);
     } else {
         fprintf(todo_db, "%s;%s;%s;;\n", username_login, todo[0], todo[1]);
         fclose(todo_db);
@@ -257,6 +260,7 @@ void split_todo(char mode[]) {
         printf("Database todo tidak tersedia, program dihentikan.\n");
         printf("Tekan sembarang untuk keluar dari program...");
         getch();
+        exit(1);
     } else {
 
         while(fgets(buffer, 4000, todo_db)) {
@@ -384,6 +388,7 @@ int finish_todo() {
                 printf("\nDatabase todo tidak tersedia, program dihentikan.\n");
                 printf("Tekan sembarang untuk keluar dari program...");
                 getch();
+                exit(1);
             } else {
                 for(int i = 0; i < count; i++) {
                     fprintf(finish_fp, "%s;%s;%s;%s;\n", todo_list[i][0], todo_list[i][1], todo_list[i][2], todo_list[i][3]); 
