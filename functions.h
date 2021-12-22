@@ -77,7 +77,7 @@ int login() {
     for(int i = 0; i < 100; i++) {
         if((strcmp(username, user_data[i][0]) == 0) && (strcmp(pass, user_data[i][1]) == 0)) {
             check++;
-            strcpy(username_login, user_data[i][0]); // pindah ini ke check == 1
+            strcpy(username_login, user_data[i][0]);
         }
     }
 
