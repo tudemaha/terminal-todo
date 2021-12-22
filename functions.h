@@ -74,7 +74,7 @@ int login() {
     for(int i = 0; i < 100; i++) {
         if((strcmp(username, user_data[i][0]) == 0) && (strcmp(pass, user_data[i][1]) == 0)) {
             check++;
-            strcpy(username_login, user_data[i][0]);
+            strcpy(username_login, user_data[i][0]); // pindah ini ke check == 1
         }
     }
 
@@ -119,7 +119,7 @@ int try_login() {
 // fungsi daftar user baru
 int status = 1;
 int signup() {
-    char username[10], pass[10];
+    char username[10] = "", pass[10] = "";
     int check_same = 0;
 
 
@@ -145,20 +145,14 @@ int signup() {
     if(status < 3 && check_same > 0) {
         printf("\nUsername sudah digunakan. Gunakan username lain!\n");
         status++;
-        strcpy(username, "");
-        strcpy(pass, "");
-        signup();
+        signup(); // sebelumnya ini isi pengosongan variabel
     } else if(status < 3 && strlen(username) > 10) {
         printf("\nUsername lebih dari 10 karakter. Gunakan username lain!\n");
         status++;
-        strcpy(username, "");
-        strcpy(pass, "");
         signup();
     } else if(status < 3 && strlen(pass) > 10) {
         printf("\nPassword lebih dari 10 karakter. Gunakan password lain!\n");
         status++;
-        strcpy(username, "");
-        strcpy(pass, "");
         signup();
     } else {
 
@@ -207,7 +201,7 @@ int new_todo() {
 
     if(strlen(todo[0]) == 0) {
         printf("Anda belum memasukkan kegiatan.\n");
-        new_todo(username_login);
+        new_todo(); // gak isi username_login lagi
     }
     
 
@@ -378,6 +372,7 @@ int finish_todo() {
             count++;
             i++;
         }
+
 
         if(strcmp(username_login, todo_list[selesai][0]) == 0) {
             strcpy(todo_list[selesai][3], "*");
