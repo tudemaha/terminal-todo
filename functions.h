@@ -66,8 +66,11 @@ int login() {
     printf("Username\t: ");
     scanf("%s", &username);
 
+    while(getchar() != '\n');
+
     printf("Password\t: ");
-    scanf("%s", &pass);
+    fgets(pass, 15, stdin);
+    pass[strcspn(pass, "\n")] = 0;
 
     split_user();
 
