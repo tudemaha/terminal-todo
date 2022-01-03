@@ -139,10 +139,10 @@ int signup() {
     pass[strcspn(pass, "\n")] = 0;
     
 
-    int i = 0;
-    while(strcmp(username, user_data[i][0]) == 0) {
-        check_same++;
-        i++;
+    for(int i = 0; i < 100; i++) {
+        if(strcmp(username, user_data[i][0]) == 0) {
+            check_same++;
+        }
     }
 
     if(status < 3 && check_same > 0) {
