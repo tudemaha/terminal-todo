@@ -247,11 +247,11 @@ int new_todo() {
 }
 
 // split csv todo sesuai dengan mode yang diinginkan
-void split_todo(char mode[]) {
+void split_todo() {
     char buffer[4000];
     int row = 0, column = 0;
 
-    FILE *todo_db = fopen("db_todo.csv", mode);
+    FILE *todo_db = fopen("db_todo.csv", "r");
 
     if(!todo_db) {
         printf("Database todo tidak tersedia, program dihentikan.\n");
@@ -302,7 +302,7 @@ void split_todo(char mode[]) {
 
 // menampilkan todo dari user login
 void show_todo() {
-    split_todo("r");
+    split_todo();
 
     printf("\n\nTekan sembarang tombol untuk kembali ke menu sebelumnya...\n");
     getch();
@@ -360,7 +360,7 @@ int finish_todo() {
     int selesai, count = 0;
     char pilihan[2];
 
-    split_todo("r");
+    split_todo();
 
     printf("\n\nMasukkan ID kegiatan untuk ditandai selesai (masukkan -1 untuk membatalkan): ");
     scanf("%d", &selesai);
